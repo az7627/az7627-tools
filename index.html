@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ7627 - Tools Portal</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a14;
+  --bg-card: rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.06);
+  --text: #c8c8d4;
+  --text-dim: #6b6b80;
+  --accent: #e94560;
+  --accent2: #0f3460;
+  --accent3: #16213e;
+  --green: #2ecc71;
+  --blue: #3498db;
+  --orange: #f39c12;
+  --purple: #8e44ad;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(233,69,96,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(15,52,96,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(46,204,113,0.04) 0%, transparent 50%);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-top: 2rem;
+}
+
+header h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent), #fff 60%, var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header p {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card.accent-red::before { background: var(--accent); }
+.card.accent-green::before { background: var(--green); }
+.card.accent-blue::before { background: var(--blue); }
+.card.accent-purple::before { background: var(--purple); }
+
+.card .icon {
+  width: 48px; height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.card.accent-red .icon { background: rgba(233,69,96,0.15); }
+.card.accent-green .icon { background: rgba(46,204,113,0.15); }
+.card.accent-blue .icon { background: rgba(52,152,219,0.15); }
+.card.accent-purple .icon { background: rgba(142,68,173,0.15); }
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.card .desc {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.card .tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-start;
+}
+
+.card.accent-red .tag { background: rgba(233,69,96,0.2); color: var(--accent); }
+.card.accent-green .tag { background: rgba(46,204,113,0.2); color: var(--green); }
+.card.accent-blue .tag { background: rgba(52,152,219,0.2); color: var(--blue); }
+.card.accent-purple .tag { background: rgba(142,68,173,0.2); color: var(--purple); }
+
+.card .arrow {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  color: var(--text-dim);
+}
+
+.card:hover .arrow {
+  opacity: 1;
+  transform: translateY(-50%) translateX(4px);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay.active { display: flex; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: #1a1a2e;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.modal .subtitle {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-item {
+  display: block;
+  padding: 0.9rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.modal-item:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.modal-item .name { font-weight: 600; }
+.modal-item .info { font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.modal-close:hover { color: #fff; }
+
+footer {
+  margin-top: 4rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AZ7627 Tools</h1>
+  <p>CS2 Broadcast HUD &amp; Live Streaming Portal</p>
+</header>
+
+<div class="grid">
+
+  <!-- CS2 HUD - Realtime BP -->
+  <a class="card accent-red" href="https://www.az7627.top/bp/" target="_blank">
+    <div class="icon">&#9889;</div>
+    <h3>CS2 多人地图 BP</h3>
+    <p class="desc">实时多人协作地图 Ban &amp; Pick 工具，支持房主/投票两种模式，适配 BO1/BO3/BO5 赛制。</p>
+    <span class="tag">Realtime</span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+  <!-- CS2 HUD - Static -->
+  <div class="card accent-green" onclick="showHudModal()">
+    <div class="icon">&#9654;</div>
+    <h3>CS2 HUD 静态页面</h3>
+    <p class="desc">Ban&amp;Pick、PreMatch、Halftime、Results、BetweenMaps、TechBreak 等广播 HUD 页面。</p>
+    <span class="tag">Static</span>
+    <span class="arrow">&rarr;</span>
+  </div>
+
+  <!-- Live Stream -->
+  <a class="card accent-blue" href="https://www.az7627.top/live/" target="_blank">
+    <div class="icon">&#9673;</div>
+    <h3>Live Stream Web</h3>
+    <p class="desc">自建直播平台，支持 OBS RTMP 推流、HLS 分发、弹幕系统、频道管理和密码保护。</p>
+    <span class="tag">Streaming</span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+  <!-- Guess CS2 Players -->
+  <a class="card accent-purple" href="https://www.az7627.top/guess/" target="_blank">
+    <div class="icon">&#10033;</div>
+    <h3>CS2 猜选手</h3>
+    <p class="desc">多人实时 CS2 职业选手/战队竞猜游戏，逐条揭示提示，比拼谁能最快猜出答案。</p>
+    <span class="tag">Game</span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+</div>
+
+<!-- HUD Static Pages Modal -->
+<div class="modal-overlay" id="hudModal" onclick="if(event.target===this)closeHudModal()">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeHudModal()" style="position:absolute">&times;</button>
+    <h2>CS2 HUD 静态页面</h2>
+    <p class="subtitle">选择一个 HUD 页面，在新标签页中打开</p>
+    <div class="modal-items">
+      <a class="modal-item" href="https://www.az7627.top/hud-static/BanPick.html" target="_blank">
+        <div class="name">Ban &amp; Pick</div>
+        <div class="info">地图 Ban/Pick 展示 — 7 张内置地图，点击动画序列</div>
+      </a>
+      <a class="modal-item" href="https://www.az7627.top/hud-static/PreMatch.html" target="_blank">
+        <div class="name">PreMatch</div>
+        <div class="info">赛前倒计时 — CT/T 队伍卡片、地图信息、自动倒计时</div>
+      </a>
+      <a class="modal-item" href="https://www.az7627.top/hud-static/Halftime.html" target="_blank">
+        <div class="name">Halftime</div>
+        <div class="info">半场换边 — 队伍名称、比分、倒计时</div>
+      </a>
+      <a class="modal-item" href="https://www.az7627.top/hud-static/BetweenMaps.html" target="_blank">
+        <div class="name">BetweenMaps</div>
+        <div class="info">地图间过渡 — 已完赛地图结果、系列比分、下张地图</div>
+      </a>
+      <a class="modal-item" href="https://www.az7627.top/hud-static/Results.html" target="_blank">
+        <div class="name">Results</div>
+        <div class="info">赛后结果 — 冠军奖杯、系列比分、地图明细表</div>
+      </a>
+      <a class="modal-item" href="https://www.az7627.top/hud-static/TechBreak.html" target="_blank">
+        <div class="name">TechBreak</div>
+        <div class="info">技术暂停 — 自定义原因、计时器</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  AZ7627 Tools &copy; 2026 &mdash; Powered by ImmortalWrt &amp; Cloudflare
+</footer>
+
+<script>
+function showHudModal() {
+  document.getElementById('hudModal').classList.add('active');
+}
+function closeHudModal() {
+  document.getElementById('hudModal').classList.remove('active');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeHudModal();
+});
+</script>
+
+</body>
+</html>

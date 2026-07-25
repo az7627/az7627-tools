@@ -1,0 +1,9 @@
+[submodule "cs2-hud-matchless"]
+	path = cs2-hud-matchless
+	url = https://github.com/az7627/cs2-hud-matchless.git
+[submodule "live-stream-web"]
+	path = live-stream-web
+	url = https://github.com/az7627/live-stream-web.git
+[submodule "guess-cs2-players"]
+	path = guess-cs2-players
+	url = https://github.com/az7627/guess-cs2-players.git
