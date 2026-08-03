@@ -148,6 +148,12 @@ header p {
   align-self: flex-start;
 }
 
+.card .author-link {
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .card.accent-red .tag { background: rgba(233,69,96,0.2); color: var(--accent); }
 .card.accent-green .tag { background: rgba(46,204,113,0.2); color: var(--green); }
 .card.accent-blue .tag { background: rgba(52,152,219,0.2); color: var(--blue); }
@@ -313,7 +319,7 @@ footer {
   <a class="card accent-gold" href="https://www.az7627.top/monopoly/" target="_blank">
     <div class="icon"><i class="fa-solid fa-dice"></i></div>
     <h3>MineMonopoly 大富翁</h3>
-    <p class="desc">支持自定义地图的多人在线大富翁游戏，内置地图编辑器，Web 打开即玩。原作者：<a href="https://github.com/FatPaper-1874" target="_blank" style="color:var(--gold);text-decoration:underline">FatPaper-1874</a></p>
+    <p class="desc">支持自定义地图的多人在线大富翁游戏，内置地图编辑器，Web 打开即玩。原作者：<span class="author-link" onclick="event.stopPropagation();window.open('https://github.com/FatPaper-1874','_blank')">FatPaper-1874</span></p>
     <span class="tag">Game</span>
     <span class="arrow">&rarr;</span>
   </a>
