@@ -20,6 +20,7 @@
   --blue: #3498db;
   --orange: #f39c12;
   --purple: #8e44ad;
+  --gold: #ffd700;
 }
 
 body {
@@ -106,6 +107,7 @@ header p {
 .card.accent-green::before { background: var(--green); }
 .card.accent-blue::before { background: var(--blue); }
 .card.accent-purple::before { background: var(--purple); }
+.card.accent-gold::before { background: var(--gold); }
 
 .card .icon {
   width: 48px; height: 48px;
@@ -121,6 +123,7 @@ header p {
 .card.accent-green .icon { background: rgba(46,204,113,0.15); }
 .card.accent-blue .icon { background: rgba(52,152,219,0.15); }
 .card.accent-purple .icon { background: rgba(142,68,173,0.15); }
+.card.accent-gold .icon { background: rgba(255,215,0,0.15); }
 
 .card h3 {
   font-size: 1.25rem;
@@ -149,6 +152,7 @@ header p {
 .card.accent-green .tag { background: rgba(46,204,113,0.2); color: var(--green); }
 .card.accent-blue .tag { background: rgba(52,152,219,0.2); color: var(--blue); }
 .card.accent-purple .tag { background: rgba(142,68,173,0.2); color: var(--purple); }
+.card.accent-gold .tag { background: rgba(255,215,0,0.2); color: var(--gold); }
 
 .card .arrow {
   position: absolute;
@@ -301,6 +305,15 @@ footer {
     <div class="icon"><i class="fa-solid fa-star"></i></div>
     <h3>CS2 猜选手 <span style="font-size:0.55em;background:#f39c12;color:#000;padding:2px 6px;border-radius:3px;vertical-align:middle;font-weight:700">BETA</span></h3>
     <p class="desc">多人实时 CS2 职业选手/战队竞猜游戏，逐条揭示提示，比拼谁能最快猜出答案。数据核对暂未完成，可能存在信息不准确或重复显示。</p>
+    <span class="tag">Game</span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+  <!-- MineMonopoly -->
+  <a class="card accent-gold" href="https://www.az7627.top/monopoly/" target="_blank">
+    <div class="icon"><i class="fa-solid fa-dice"></i></div>
+    <h3>MineMonopoly 大富翁</h3>
+    <p class="desc">支持自定义地图的多人在线大富翁游戏，内置地图编辑器，Web 打开即玩。原作者：<a href="https://github.com/FatPaper-1874" target="_blank" style="color:var(--gold);text-decoration:underline">FatPaper-1874</a></p>
     <span class="tag">Game</span>
     <span class="arrow">&rarr;</span>
   </a>
