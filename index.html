@@ -21,6 +21,7 @@
   --orange: #f39c12;
   --purple: #8e44ad;
   --gold: #ffd700;
+  --teal: #4ec9b0;
 }
 
 body {
@@ -108,6 +109,7 @@ header p {
 .card.accent-blue::before { background: var(--blue); }
 .card.accent-purple::before { background: var(--purple); }
 .card.accent-gold::before { background: var(--gold); }
+.card.accent-teal::before { background: var(--teal); }
 
 .card .icon {
   width: 48px; height: 48px;
@@ -124,6 +126,7 @@ header p {
 .card.accent-blue .icon { background: rgba(52,152,219,0.15); }
 .card.accent-purple .icon { background: rgba(142,68,173,0.15); }
 .card.accent-gold .icon { background: rgba(255,215,0,0.15); }
+.card.accent-teal .icon { background: rgba(78,201,176,0.15); }
 
 .card h3 {
   font-size: 1.25rem;
@@ -159,6 +162,7 @@ header p {
 .card.accent-blue .tag { background: rgba(52,152,219,0.2); color: var(--blue); }
 .card.accent-purple .tag { background: rgba(142,68,173,0.2); color: var(--purple); }
 .card.accent-gold .tag { background: rgba(255,215,0,0.2); color: var(--gold); }
+.card.accent-teal .tag { background: rgba(78,201,176,0.2); color: var(--teal); }
 
 .card .arrow {
   position: absolute;
@@ -329,6 +333,15 @@ footer {
     <div class="icon"><i class="fa-solid fa-dragon"></i></div>
     <h3>立直麻将 · 青雀馆</h3>
     <p class="desc">在线立直麻将，支持三人/四人、东风战/半庄战，实时多人同台对局，附听牌提示与荒牌流局结算。</p>
+    <span class="tag">Game</span>
+    <span class="arrow">&rarr;</span>
+  </a>
+
+  <!-- 国际象棋 -->
+  <a class="card accent-teal" href="https://www.az7627.top/chess/" target="_blank">
+    <div class="icon"><i class="fa-solid fa-chess-knight"></i></div>
+    <h3>国际象棋</h3>
+    <p class="desc">房间号联机对战，支持棋钟、观战、AI 对手，终局导出 PGN，也可导入 PGN 播放回放。</p>
     <span class="tag">Game</span>
     <span class="arrow">&rarr;</span>
   </a>
